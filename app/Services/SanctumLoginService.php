@@ -2,10 +2,11 @@
 
 namespace App\Services;
 
+use App\Interfaces\AuthenticationInterface;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
-class SanctumLoginService
+class SanctumLoginService implements AuthenticationInterface
 {
     /**
      * Create a new class instance.
@@ -20,7 +21,7 @@ class SanctumLoginService
         return $this->createToken($model,$tokenName);
     }
 
-    public function validateCredentials($request, $model,$tokenName)
+    public function validateCredentials($request, $model, $tokenName)
     {
         if (! $model || ! Hash::check($request->password, $model->password)) {
             throw ValidationException::withMessages([
