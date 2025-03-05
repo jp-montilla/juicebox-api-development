@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Cache;
 
 class OpenWeatherForecastService implements WeatherForecastInterface
 {
-    public function __construct(private ExternalApiService $externalApiService)
+    public function __construct(private ExternalApiService $externalApiService,)
     {
 
     }
@@ -15,10 +15,11 @@ class OpenWeatherForecastService implements WeatherForecastInterface
     public function fetchWeather(string $city)
     {
         $apiUrl = config('constants.weather_api_url').'?q='.$city.'&appId='.config('constants.weather_api_key');
-        $weather = Cache::remember('users', now()->addMinutes(15), function () use ($apiUrl) {
-            return $this->formatWeatherResponse($this->externalApiService->callThirdyPartyApi($apiUrl));
+        $cacheName = config('constants.weather_cache_key').'_'.$apiUrl;
+
+        return Cache::remember($cacheName, now()->addMinutes(15), function() use ($apiUrl) {
+            return $this->formatWeatherResponse($this->externalApiService->callThirdyPartyApi($apiUrl, [], 'GET', config('constants.weather_cache_key')));
         });
-        return $weather;
     }
 
     private function formatWeatherResponse($weather)
