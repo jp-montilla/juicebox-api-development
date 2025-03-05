@@ -10,16 +10,27 @@ class UserService
 {
     public function findUser($id)
     {
-        $user = $this->findUserById($id);
+        $user = $this->findUserWhere('id', $id);
+        $this->checkUserExist($user);
         return new UserResource($user);
     }
 
-    private function findUserById($id)
+    public function findUserByEmail($email)
     {
-        $user = User::with('posts')->where('id', $id)->first();
+        $user = $this->findUserWhere('email', $email);
+        return new UserResource($user);
+    }
+
+    private function findUserWhere($column, $id)
+    {
+        $user = User::with('posts')->where($column, $id)->first();
+        return $user;
+    }
+
+    private function checkUserExist($user)
+    {
         if (!$user) {
             throw new CustomException('User not found!', 404);
         }
-        return $user;
     }
 }
