@@ -2,20 +2,13 @@
 
 namespace App\Services;
 
+use App\Exceptions\CustomException;
 use App\Interfaces\AuthenticationInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 class SanctumLoginService implements AuthenticationInterface
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
     public function getToken($model, $tokenName)
     {
         return $this->createToken($model,$tokenName);
@@ -24,12 +17,15 @@ class SanctumLoginService implements AuthenticationInterface
     public function validateCredentials($request, $model, $tokenName)
     {
         if (! $model || ! Hash::check($request->password, $model->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+            throw new CustomException('The provided credentials are incorrect.', 401);
         }
 
         return $this->createToken($model,$tokenName);
+    }
+
+    public function logout()
+    {
+        Auth::user()->currentAccessToken()->delete();
     }
 
 
