@@ -24,9 +24,8 @@ class ExternalApiService
             $response = $client->request($method, $apiUrl, [
                 'headers' => $headers,
             ]);
-            $formattedResponse = json_decode($response->getBody(), true);
-
-            return $formattedResponse;
+            
+            return json_decode($response->getBody(), true);
     
         }
         catch (Exception $e)
