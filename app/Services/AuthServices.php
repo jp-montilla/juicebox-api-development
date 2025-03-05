@@ -7,7 +7,10 @@ use App\Models\User;
 
 class AuthServices
 {
-    public function __construct(private AuthenticationInterface $authenticationInterface)
+    public function __construct(
+        private AuthenticationInterface $authenticationInterface,
+        private WelcomeEmailService $welcomeEmailService,
+    )
     {
         
     }
@@ -16,6 +19,7 @@ class AuthServices
     {
         $user = User::create($request->validated());
         $token = $this->authenticationInterface->getToken($user, 'auth_token');
+        $this->welcomeEmailService->sendWelcomeEmail($user);
         return [$user, $token];
     }
 
