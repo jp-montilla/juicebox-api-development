@@ -10,11 +10,6 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('test', function() {
-    $name = 'John Doe';
-    Mail::to('mailtrap.com@gmail.com')->queue(new WelcomeMail($name));
-});
-
 Route::middleware('auth:sanctum')->group(function(){
     Route::resource('posts', PostController::class);
 
