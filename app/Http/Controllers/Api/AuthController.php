@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Classes\ApiResponse;
 use App\Classes\LoginResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
@@ -21,13 +22,13 @@ class AuthController extends Controller
     {
         $user = User::create($request->validated());
         $token = $this->authenticationInterface->getToken($user, 'auth_token');
-        return LoginResponse::sendResponse(new UserResource($user), 'User created!', $token);
+        return ApiResponse::sendResponse(new UserResource($user), 'User created!', 201, $token);
     }
 
     public function login(LoginRequest $request)
     {
         $user = User::where('email', $request->email)->first();
         $token = $this->authenticationInterface->validateCredentials($request, $user, 'auth_token');
-        return LoginResponse::sendResponse(new UserResource($user), 'User logged in!', $token);
+        return ApiResponse::sendResponse(new UserResource($user), 'User logged in!', 200, $token);
     }
 }

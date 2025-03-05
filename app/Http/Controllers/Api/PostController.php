@@ -2,21 +2,28 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Classes\ApiResponse;
+use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use App\Services\PostService;
 
 class PostController extends Controller
 {
+    public function __construct(private PostService $postService)
+    {
+        
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $posts = Post::paginate(15);
-        return PostResource::collection($posts);
+        return PostResource::collection($this->postService->getAllPosts());
     }
 
     /**
@@ -24,33 +31,34 @@ class PostController extends Controller
      */
     public function store(PostStoreRequest $request)
     {
-        $post = $request->user()->posts()->create($request->validated());
-        return PostResource::collection($post);
+        $post = $this->postService->storePost($request);
+        return ApiResponse::sendResponse($post, 'Post created!', 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show($id)
     {
-        return response()->json($post);
+        $post = $this->postService->findPost($id);
+        return ApiResponse::sendResponse($post, 'Post retrieved!', 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(PostUpdateRequest $request, Post $post)
+    public function update(PostUpdateRequest $request, $id)
     {
-        $post->update($request->validate());
-        return new PostResource($post);
+        $post = $this->postService->updatePost($request, $id);
+        return ApiResponse::sendResponse($post, 'Post updated!', 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        $post->delete();
-        return response()->json(null, 204);
+        $this->postService->deletePost($id);
+        return ApiResponse::sendResponse(null, 'Post deleted!', 200);
     }
 }

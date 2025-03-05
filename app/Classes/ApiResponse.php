@@ -4,13 +4,17 @@ namespace App\Classes;
 
 class ApiResponse
 {
-    public static function sendResponse($result, $message, $code = 200, $token='') 
+    public static function sendResponse($result, $message, $code, $token='') 
     {
         $response = [
-            'success' => true,
             'data'    => $result,
             'message' => $message,
         ];
+
+        if ($token !== '')
+        {
+            $response['token'] = $token;
+        }
 
         return response()->json($response, $code);
     }
