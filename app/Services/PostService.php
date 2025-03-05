@@ -6,7 +6,6 @@ use App\Exceptions\CustomException;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
 class PostService
 {
