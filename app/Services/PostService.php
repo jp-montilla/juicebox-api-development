@@ -6,12 +6,15 @@ use App\Exceptions\CustomException;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class PostService
 {
     public function getAllPosts()
     {
-        return Post::with('user')->paginate(15);
+        return Cache::remember("all_post_".request()->get('page', 1), 15, function () {
+            return Post::with('user')->paginate(15);
+        });
     }
 
     public function storePost($request)
