@@ -25,4 +25,9 @@ class AuthServices
         $token = $this->authenticationInterface->validateCredentials($request, $user, 'auth_token');
         return [$user, $token];
     }
+
+    public function logout()
+    {
+        $this->authenticationInterface->logout();
+    }
 }

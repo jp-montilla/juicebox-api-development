@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Classes\ApiResponse;
-use App\Classes\LoginResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
-use App\Interfaces\AuthenticationInterface;
-use App\Models\User;
 use App\Services\AuthServices;
+use Illuminate\Support\Facades\Request;
 
 class AuthController extends Controller
 {
@@ -29,5 +27,11 @@ class AuthController extends Controller
     {
         list($user, $token) = $this->authServices->login($request);
         return ApiResponse::sendResponse(new UserResource($user), 'User logged in!', 200, $token);
+    }
+
+    public function logout(Request $request)
+    {
+        $this->authServices->logout($request);
+        return ApiResponse::sendResponse('', 'User logged out!', 200);
     }
 }

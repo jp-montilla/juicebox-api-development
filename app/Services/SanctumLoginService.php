@@ -4,8 +4,8 @@ namespace App\Services;
 
 use App\Exceptions\CustomException;
 use App\Interfaces\AuthenticationInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 class SanctumLoginService implements AuthenticationInterface
 {
@@ -21,6 +21,11 @@ class SanctumLoginService implements AuthenticationInterface
         }
 
         return $this->createToken($model,$tokenName);
+    }
+
+    public function logout()
+    {
+        Auth::user()->currentAccessToken()->delete();
     }
 
 
