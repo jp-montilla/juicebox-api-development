@@ -13,9 +13,9 @@ class WeatherController extends Controller
         
     }
 
-    public function getWeather(string $city = 'Perth')
+    public function getWeather()
     {
-        $weather = $this->weatherForecastInterface->fetchWeather($city);
+        $weather = $this->weatherForecastInterface->fetchWeather(config('constants.weather_default_city'));
 
         return ApiResponse::sendResponse($weather, 'Weather Retrieved!', 200);
     }

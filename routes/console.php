@@ -8,4 +8,4 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-Schedule::command('weather:forecast Perth')->hourly();
+Schedule::command('weather:forecast '.config('constants.weather_default_city'))->hourly();
