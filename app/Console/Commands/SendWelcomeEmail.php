@@ -6,8 +6,6 @@ use App\Services\UserService;
 use App\Services\WelcomeEmailService;
 use Illuminate\Console\Command;
 
-use function PHPUnit\Framework\isNull;
-
 class SendWelcomeEmail extends Command
 {
     /**
