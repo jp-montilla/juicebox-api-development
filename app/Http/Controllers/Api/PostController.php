@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Classes\ApiResponse;
-use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
 use App\Http\Resources\PostResource;
-use App\Models\Post;
 use App\Services\PostService;
 
 class PostController extends Controller
