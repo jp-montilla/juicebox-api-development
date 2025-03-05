@@ -6,4 +6,5 @@ interface AuthenticationInterface
 {
     public function getToken($model, string $tokenName);
     public function validateCredentials($request, $model, string $tokenName);
+    public function logout();
 }
