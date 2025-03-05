@@ -20,7 +20,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'posts' => PostResource::collection($this->posts)
+            'posts' => $this->when(\Route::current()->uri !== 'api/login' , PostResource::collection($this->posts)),
         ];
     }
 }
