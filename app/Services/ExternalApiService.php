@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
+use App\Exceptions\CustomException;
 use Exception;
 use GuzzleHttp\Client;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ExternalApiService
 {
@@ -30,11 +30,7 @@ class ExternalApiService
         }
         catch (Exception $e)
         {
-            $response = [
-                'message' => 'City not found',
-            ];
-
-            throw new HttpResponseException(response()->json($response, 404));
+            throw new CustomException('City not found!', 404);
         }
     }
 }
