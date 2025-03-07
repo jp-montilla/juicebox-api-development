@@ -9,7 +9,7 @@ A simple project built to showcase Laravel API development, authentication, data
 - **[Open Weather Map API](https://openweathermap.org/api)**
 
 
-### Installation
+## Installation
 Please follow the following steps for successful installation:
 
 1. **Clone GitHub repo for this project locally**
@@ -110,6 +110,62 @@ https://api.openweathermap.org/data/2.5/weather?q={city name},{state code},{coun
     ```
     php artisan serve
     ```
+
+
+## Queue
+
+1. Navigate to **.env** file and update what driver you will use. By default I am using database driver.
+
+    ```
+    QUEUE_CONNECTION=database
+    ```
+
+2. **Run the queue worker**
+    
+      ```
+      php artisan queue:work
+      ```
+
+## Custom Artisan Command
+
+1. **Send Welcome Email** accepts a required argument email.<br/>
+
+    Usage:
+   
+    ```
+    php artisan mail:send-welcome-email {email}
+    ```
+
+    Sample Usage
+   
+    _Non existing user with email of nonexistinguser@email.com_
+   
+   ![nonexisting](https://github.com/user-attachments/assets/81b29d8f-6188-4833-8509-6dddd888d567)
+
+   _User with email of janedoe@email.com_
+
+   ![existing](https://github.com/user-attachments/assets/a7a3246d-3b59-4041-aa5e-ed47acbf0b81)
+
+
+3. **Get Weather** accepts a required argument city.<br/>
+
+    Usage:
+    ```
+    php artisan weather:forecash {city}
+    ```
+
+    Sample Usage
+
+   
+   ![weather](https://github.com/user-attachments/assets/1213e77b-c8fa-4cab-88e7-8c3cae4fa281)
+
+
+
+
+
+
+
+      
 
 
 
